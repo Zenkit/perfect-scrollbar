@@ -116,7 +116,8 @@ function bindMouseWheelHandler(element, i) {
 
     updateGeometry(element);
 
-    shouldPrevent = (shouldPrevent || shouldPreventDefault(deltaX, deltaY));
+    // NOTE: If deltaX is 0, the user probably wants to zoom in which case we should not call preventDefault.
+    shouldPrevent = (shouldPrevent || shouldPreventDefault(deltaX, deltaY)) && (Math.abs(deltaX) > 0);
     if (shouldPrevent) {
       e.stopPropagation();
       e.preventDefault();
