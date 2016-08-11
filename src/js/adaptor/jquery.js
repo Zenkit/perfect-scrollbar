@@ -22,6 +22,10 @@ function mountJQuery(jQuery) {
           ps.update(this);
         } else if (command === 'destroy') {
           ps.destroy(this);
+        } else if (command === 'enable') {
+          ps.setEnabled(this, true);
+        } else if (command === 'disable') {
+          ps.setEnabled(this, false);
         }
       }
     });
