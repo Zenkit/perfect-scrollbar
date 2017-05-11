@@ -22,6 +22,7 @@ module.exports = function (element, enabled) {
         mouseWheelHandler(element);
         nativeScrollHandler(element);
         selectionHandler(element);
+        touchHandler(element);
 
         cls.remove(i.scrollbarXRail, disabledCls);
         cls.remove(i.scrollbarYRail, disabledCls);
