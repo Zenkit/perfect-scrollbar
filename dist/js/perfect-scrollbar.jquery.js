@@ -1,4 +1,4 @@
-/* perfect-scrollbar v0.6.12 */
+/* perfect-scrollbar v0.6.13 */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -346,7 +346,7 @@ exports.stopScrolling = function (element, axis) {
 exports.env = {
   isWebKit: 'WebkitAppearance' in document.documentElement.style,
   supportsTouch: (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch),
-  supportsIePointer: window.navigator.msMaxTouchPoints !== null
+  supportsIePointer: window.navigator.msMaxTouchPoints !== null && window.navigator.msMaxTouchPoints !== undefined
 };
 
 },{"./class":2,"./dom":3}],7:[function(require,module,exports){
@@ -1313,36 +1313,36 @@ var cls = require('../lib/class')
 // Handlers
 var clickRailHandler = require('./handler/click-rail')
   , dragScrollbarHandler = require('./handler/drag-scrollbar')
-  , keyboardHandler = require('./handler/keyboard')
   , mouseWheelHandler = require('./handler/mouse-wheel')
   , nativeScrollHandler = require('./handler/native-scroll')
   , selectionHandler = require('./handler/selection')
   , touchHandler = require('./handler/touch');
 
 module.exports = function (element, enabled) {
-    var i = instances.get(element),
-        disabledCls = 'ps-disabled';
+  var i = instances.get(element),
+    disabledCls = 'ps-disabled';
 
-    if (enabled === true && i.enabled === false) {
-        clickRailHandler(element);
-        dragScrollbarHandler(element);
-        mouseWheelHandler(element);
-        nativeScrollHandler(element);
-        selectionHandler(element);
+  if (enabled === true && i.enabled === false) {
+    clickRailHandler(element);
+    dragScrollbarHandler(element);
+    mouseWheelHandler(element);
+    nativeScrollHandler(element);
+    selectionHandler(element);
+    touchHandler(element);
 
-        cls.remove(i.scrollbarXRail, disabledCls);
-        cls.remove(i.scrollbarYRail, disabledCls);
-    } else if (enabled === false && (i.enabled === true || i.enabled === undefined)){
-        i.event.unbindAll();
-        cls.add(i.scrollbarXRail, disabledCls);
-        cls.add(i.scrollbarYRail, disabledCls);
-    }
+    cls.remove(i.scrollbarXRail, disabledCls);
+    cls.remove(i.scrollbarYRail, disabledCls);
+  } else if (enabled === false && (i.enabled === true || i.enabled === undefined)) {
+    i.event.unbindAll();
+    cls.add(i.scrollbarXRail, disabledCls);
+    cls.add(i.scrollbarYRail, disabledCls);
+  }
 
-    i.enabled = enabled;
+  i.enabled = enabled;
 
 };
 
-},{"../lib/class":2,"./handler/click-rail":10,"./handler/drag-scrollbar":11,"./handler/keyboard":12,"./handler/mouse-wheel":13,"./handler/native-scroll":14,"./handler/selection":15,"./handler/touch":16,"./instances":18}],20:[function(require,module,exports){
+},{"../lib/class":2,"./handler/click-rail":10,"./handler/drag-scrollbar":11,"./handler/mouse-wheel":13,"./handler/native-scroll":14,"./handler/selection":15,"./handler/touch":16,"./instances":18}],20:[function(require,module,exports){
 'use strict';
 
 var _ = require('../lib/helper');
