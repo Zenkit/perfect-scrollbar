@@ -78,7 +78,16 @@ exports.stopScrolling = function (element, axis) {
 
 exports.env = {
   isWebKit: 'WebkitAppearance' in document.documentElement.style,
-  // TouchEvent is needed to detect touch support on surface tablets
-  supportsTouch: (('ontouchstart' in window) || !!window.TouchEvent || (window.DocumentTouch && document instanceof window.DocumentTouch)),
+  // Combination of two answers in https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript/4819886#4819886
+  supportsTouch: (function () {
+      // https://stackoverflow.com/a/52855084/5559047
+    if (window.matchMedia) {
+      return window.matchMedia('(pointer: coarse)').matches ||
+        // any-pointer is needed to detect touch support on ms surface tablets
+        window.matchMedia('(any-pointer: coarse)').matches;
+    }
+      // https://stackoverflow.com/a/15439809/5559047
+    return ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0);
+  }()),
   supportsIePointer: window.navigator.msMaxTouchPoints !== null && window.navigator.msMaxTouchPoints !== undefined
 };
