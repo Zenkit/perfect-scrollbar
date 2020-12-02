@@ -345,7 +345,8 @@ exports.stopScrolling = function (element, axis) {
 
 exports.env = {
   isWebKit: 'WebkitAppearance' in document.documentElement.style,
-  supportsTouch: (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch),
+  // TouchEvent is needed to detect touch support on surface tablets
+  supportsTouch: (('ontouchstart' in window) || !!window.TouchEvent || (window.DocumentTouch && document instanceof window.DocumentTouch)),
   supportsIePointer: window.navigator.msMaxTouchPoints !== null && window.navigator.msMaxTouchPoints !== undefined
 };
 
